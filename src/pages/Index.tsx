@@ -3,8 +3,10 @@ import { Footer } from "@/components/layout/Footer";
 import { PageTransition } from "@/components/layout/PageTransition";
 import { HeroSection } from "@/components/home/HeroSection";
 import { ProjectGrid } from "@/components/home/ProjectGrid";
-import { SkillsSection } from "@/components/home/SkillsSection";
 import { AboutSection } from "@/components/home/AboutSection";
+import { ExperienceSection } from "@/components/home/ExperienceSection";
+import { SystemsSection } from "@/components/home/SystemsSection";
+import { SkillsSection } from "@/components/home/SkillsSection";
 import { ContactSection } from "@/components/home/ContactSection";
 
 const Index = () => {
@@ -14,8 +16,10 @@ const Index = () => {
       <main>
         <HeroSection />
         <ProjectGrid />
-        <SkillsSection />
         <AboutSection />
+        <ExperienceSection />
+        <SystemsSection />
+        <SkillsSection />
         <ContactSection />
       </main>
       <Footer />

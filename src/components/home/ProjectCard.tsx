@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
@@ -10,82 +9,39 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project, index }: ProjectCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
     <motion.div
-      layout
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
+      transition={{ duration: 0.5, delay: index * 0.06 }}
     >
       <Link
         to={`/project/${project.id}`}
-        className="group block"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        className="group block py-8 md:py-10 border-b border-border"
       >
-        <div className="relative overflow-hidden rounded-2xl glass-card aspect-[16/9] transition-shadow duration-500 hover:shadow-card-hover">
-          <motion.div
-            className="absolute inset-0"
-            animate={{ scale: isHovered ? 1.05 : 1 }}
-            transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-          >
-            <img
-              src={project.thumbnail}
-              alt={project.title}
-              className="w-full h-full object-cover"
-              loading="lazy"
-            />
-          </motion.div>
-
-          <div
-            className={`absolute inset-0 transition-all duration-500 ${
-              isHovered
-                ? "bg-gradient-to-t from-background via-background/60 to-transparent"
-                : "bg-gradient-to-t from-background/70 via-background/20 to-transparent"
-            }`}
-          />
-
-          <div className="absolute inset-0 p-5 flex flex-col justify-end">
-            <span className="inline-block self-start px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] glass-card rounded-full mb-2">
-              {project.category}
-            </span>
-            <motion.h3
-              animate={{ y: isHovered ? -3 : 0 }}
-              transition={{ duration: 0.3 }}
-              className="font-display font-bold text-lg leading-tight mb-1"
-            >
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-2">
+              <span className="text-xs text-muted-foreground">{project.year}</span>
+              <span className="text-muted-foreground">·</span>
+              <span className="text-xs text-muted-foreground">{project.category}</span>
+            </div>
+            <h3 className="text-display-lg group-hover:opacity-60 transition-opacity duration-300">
               {project.title}
-            </motion.h3>
-            <motion.p
-              animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 6 }}
-              transition={{ duration: 0.3 }}
-              className="text-sm text-muted-foreground line-clamp-2 mb-3"
-            >
+            </h3>
+            <p className="text-sm text-muted-foreground mt-2 max-w-[500px] leading-relaxed">
               {project.description}
-            </motion.p>
-            <motion.div
-              animate={{ opacity: isHovered ? 1 : 0 }}
-              transition={{ duration: 0.3, delay: 0.05 }}
-              className="flex flex-wrap gap-1.5 mb-3"
-            >
-              {project.tools.slice(0, 3).map((tool) => (
-                <span key={tool} className="px-2 py-0.5 text-[10px] font-medium bg-primary/10 text-primary rounded-full">
+            </p>
+            <div className="flex flex-wrap gap-2 mt-4">
+              {project.tools.slice(0, 4).map((tool) => (
+                <span key={tool} className="text-[11px] text-muted-foreground border border-border px-2.5 py-1">
                   {tool}
                 </span>
               ))}
-            </motion.div>
-            <motion.div
-              animate={{ opacity: isHovered ? 1 : 0 }}
-              transition={{ duration: 0.3, delay: 0.1 }}
-              className="flex items-center gap-1.5 text-sm font-medium text-primary"
-            >
-              View Case Study <ArrowUpRight className="w-3.5 h-3.5" />
-            </motion.div>
+            </div>
           </div>
+          <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-foreground group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all duration-300 flex-shrink-0" />
         </div>
       </Link>
     </motion.div>
