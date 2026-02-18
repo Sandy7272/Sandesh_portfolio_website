@@ -10,9 +10,7 @@ const ProjectDetail = () => {
   const { id } = useParams();
   const project = projects.find((p) => p.id === id);
 
-  if (!project) {
-    return <Navigate to="/" replace />;
-  }
+  if (!project) return <Navigate to="/" replace />;
 
   const currentIndex = projects.findIndex((p) => p.id === id);
   const nextProject = projects[(currentIndex + 1) % projects.length];
@@ -20,228 +18,159 @@ const ProjectDetail = () => {
   return (
     <PageTransition>
       <Navigation />
-      <main className="pt-20">
-        {/* Hero */}
-        <section className="relative h-[70vh] min-h-[500px] overflow-hidden">
-          <motion.div
-            initial={{ scale: 1.1 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute inset-0"
+      <main className="pt-24">
+        {/* Header */}
+        <section className="editorial-container mb-16">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-10"
           >
-            <img
-              src={project.heroImage}
-              alt={project.title}
-              className="w-full h-full object-cover"
-            />
-          </motion.div>
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-background/20" />
+            <ArrowLeft className="w-4 h-4" />
+            Back
+          </Link>
 
-          <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-12">
-            <div className="max-w-6xl mx-auto">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                <Link
-                  to="/"
-                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  Back to projects
-                </Link>
-                <span className="block px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] glass-card rounded-full w-fit mb-4">
-                  {project.category}
-                </span>
-                <h1 className="font-display text-display-lg font-bold max-w-4xl">
-                  {project.title}
-                </h1>
-              </motion.div>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <div className="flex flex-wrap items-center gap-3 mb-4 text-sm text-muted-foreground">
+              <span>{project.category}</span>
+              <span>·</span>
+              <span>{project.year}</span>
+              {project.company && (
+                <>
+                  <span>·</span>
+                  <span>{project.company}</span>
+                </>
+              )}
             </div>
-          </div>
+            <h1 className="text-display-hero max-w-[800px] mb-6">{project.title}</h1>
+            <p className="text-lg text-muted-foreground max-w-[600px] leading-relaxed">{project.description}</p>
+          </motion.div>
         </section>
 
-        {/* Meta */}
-        <section className="px-6 lg:px-12 py-16">
-          <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="lg:col-span-2"
-            >
-              <p className="text-xl text-foreground leading-relaxed mb-8">
-                {project.description}
-              </p>
-              <div className="flex flex-wrap gap-6">
-                {project.company && (
-                  <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                    <Building2 className="w-4 h-4" />
-                    <span>{project.company}</span>
-                  </div>
-                )}
-                <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                  <Calendar className="w-4 h-4" />
-                  <span>{project.year}</span>
-                </div>
-                {project.teamSize && (
-                  <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                    <Users className="w-4 h-4" />
-                    <span>{project.teamSize}</span>
-                  </div>
-                )}
-              </div>
-            </motion.div>
+        {/* Hero Image */}
+        <section className="editorial-container mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="aspect-[16/9] overflow-hidden"
+          >
+            <img src={project.heroImage} alt={project.title} className="w-full h-full object-cover" />
+          </motion.div>
+        </section>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="space-y-6 p-6 rounded-2xl glass-card"
-            >
-              <div>
-                <h4 className="text-xs uppercase tracking-widest text-muted-foreground mb-2">Role</h4>
-                <p className="font-medium text-sm">{project.role}</p>
+        {/* Meta Grid */}
+        <section className="editorial-container mb-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border">
+            {[
+              { label: "Role", value: project.role },
+              { label: "Duration", value: project.duration || project.year },
+              { label: "Team", value: project.teamSize || "Solo" },
+              { label: "Tools", value: project.tools.slice(0, 3).join(", ") },
+            ].map((item) => (
+              <div key={item.label} className="bg-background p-6">
+                <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground mb-2">{item.label}</p>
+                <p className="text-sm font-medium">{item.value}</p>
               </div>
-              {project.duration && (
-                <div>
-                  <h4 className="text-xs uppercase tracking-widest text-muted-foreground mb-2">Duration</h4>
-                  <p className="font-medium text-sm">{project.duration}</p>
-                </div>
-              )}
-              <div>
-                <h4 className="text-xs uppercase tracking-widest text-muted-foreground mb-2">Tech</h4>
-                <div className="flex flex-wrap gap-2">
-                  {project.tools.map((tool) => (
-                    <span key={tool} className="px-3 py-1 text-xs bg-primary/10 text-primary rounded-full">
-                      {tool}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              {project.links?.map((link) => (
-                <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-primary text-sm hover:underline">
-                  {link.label} <ExternalLink className="w-3 h-3" />
-                </a>
-              ))}
-            </motion.div>
+            ))}
           </div>
         </section>
 
         {/* Challenge / Solution */}
-        <section className="px-6 lg:px-12 py-16">
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+        <section className="editorial-container mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="p-8 rounded-2xl glass-card"
+              className="bg-background p-8 md:p-12"
             >
-              <span className="text-2xl mb-4 block">🎯</span>
-              <h3 className="font-display text-xl font-bold mb-4">The Challenge</h3>
-              <p className="text-muted-foreground leading-relaxed">{project.overview.problem}</p>
+              <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground mb-4">Challenge</p>
+              <p className="text-foreground/80 leading-relaxed">{project.overview.problem}</p>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="p-8 rounded-2xl glass-card"
+              className="bg-background p-8 md:p-12"
             >
-              <span className="text-2xl mb-4 block">💡</span>
-              <h3 className="font-display text-xl font-bold mb-4">The Solution</h3>
-              <p className="text-muted-foreground leading-relaxed">{project.overview.solution}</p>
+              <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground mb-4">Solution</p>
+              <p className="text-foreground/80 leading-relaxed">{project.overview.solution}</p>
             </motion.div>
           </div>
         </section>
 
         {/* Contributions */}
         {project.contributions && (
-          <section className="px-6 lg:px-12 py-16">
-            <div className="max-w-6xl mx-auto">
-              <h2 className="font-display text-display-sm font-bold mb-8">What I Did</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {project.contributions.map((c, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.05 }}
-                    className="flex items-start gap-4 p-4 rounded-xl hover:bg-secondary/30 transition-colors"
-                  >
-                    <span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm flex-shrink-0">
-                      {i + 1}
-                    </span>
-                    <p className="text-sm text-foreground pt-1">{c}</p>
-                  </motion.div>
-                ))}
-              </div>
+          <section className="editorial-container mb-20">
+            <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground mb-8">Contributions</p>
+            <div className="space-y-4">
+              {project.contributions.map((c, i) => (
+                <motion.p
+                  key={i}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="text-foreground/80 leading-relaxed pl-6 border-l-2 border-border"
+                >
+                  {c}
+                </motion.p>
+              ))}
             </div>
           </section>
         )}
 
         {/* Gallery */}
-        <section className="px-6 lg:px-12 py-16">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="font-display text-display-sm font-bold mb-8">Project Visuals</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {project.gallery.map((img, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="aspect-square overflow-hidden rounded-2xl group"
-                >
-                  <img src={img} alt={`${project.title} ${i + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
-                </motion.div>
-              ))}
-            </div>
+        <section className="editorial-container mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {project.gallery.map((img, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className="aspect-square overflow-hidden"
+              >
+                <img src={img} alt={`${project.title} ${i + 1}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" loading="lazy" />
+              </motion.div>
+            ))}
           </div>
         </section>
 
         {/* Results */}
-        <section className="px-6 lg:px-12 py-16">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="font-display text-display-sm font-bold mb-8">Key Outcomes</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {project.results.map((r, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="p-8 rounded-2xl glass-card text-center"
-                >
-                  <div className="text-4xl font-display font-bold text-gradient mb-2">{r.metric}</div>
-                  <div className="text-sm font-medium mb-1">{r.value}</div>
-                  {r.description && <div className="text-xs text-muted-foreground">{r.description}</div>}
-                </motion.div>
-              ))}
-            </div>
+        <section className="editorial-container mb-20">
+          <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground mb-8">Outcomes</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border">
+            {project.results.map((r, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className="bg-background p-8"
+              >
+                <div className="text-3xl font-bold mb-1">{r.metric}</div>
+                <div className="text-sm text-muted-foreground">{r.value}</div>
+              </motion.div>
+            ))}
           </div>
         </section>
 
-        {/* Next project */}
-        <section className="px-6 lg:px-12 py-16 border-t border-border/50">
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-            <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm">
+        {/* Next */}
+        <section className="editorial-container py-16 border-t border-border">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
               <ArrowLeft size={16} /> All projects
             </Link>
-            <Link to={`/project/${nextProject.id}`} className="group flex items-center gap-4">
+            <Link to={`/project/${nextProject.id}`} className="group flex items-center gap-3">
               <div className="text-right">
                 <span className="text-xs text-muted-foreground block">Next</span>
-                <span className="text-sm font-medium group-hover:text-primary transition-colors">{nextProject.shortTitle}</span>
+                <span className="text-sm font-medium group-hover:opacity-60 transition-opacity">{nextProject.shortTitle}</span>
               </div>
-              <div className="w-14 h-14 rounded-xl overflow-hidden">
-                <img src={nextProject.thumbnail} alt={nextProject.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-              </div>
-              <ArrowUpRight className="w-4 h-4 text-primary" />
+              <ArrowUpRight className="w-4 h-4" />
             </Link>
           </div>
         </section>
