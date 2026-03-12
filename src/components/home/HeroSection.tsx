@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowDown, Download, Mail } from "lucide-react";
+import { ArrowDown, Download, Mail, FlaskConical } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 function Particles() {
@@ -8,16 +8,16 @@ function Particles() {
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    const count = 30;
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < 40; i++) {
       const particle = document.createElement("div");
       particle.className = "particle";
       particle.style.left = `${Math.random() * 100}%`;
       particle.style.top = `${Math.random() * 100}%`;
-      particle.style.animationDuration = `${8 + Math.random() * 12}s`;
-      particle.style.animationDelay = `${Math.random() * 10}s`;
-      particle.style.width = `${1 + Math.random() * 2}px`;
-      particle.style.height = particle.style.width;
+      particle.style.animationDuration = `${10 + Math.random() * 15}s`;
+      particle.style.animationDelay = `${Math.random() * 12}s`;
+      const size = 1 + Math.random() * 2.5;
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
       container.appendChild(particle);
     }
     return () => { container.innerHTML = ""; };
@@ -26,15 +26,26 @@ function Particles() {
   return <div ref={containerRef} className="absolute inset-0 overflow-hidden pointer-events-none" />;
 }
 
+const badges = [
+  "VFX Artist",
+  "3D Pipeline Engineer",
+  "AI Researcher",
+  "Creative Technologist",
+];
+
 export function HeroSection() {
   return (
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden">
       <Particles />
 
-      {/* Background glows */}
+      {/* Grid background */}
+      <div className="absolute inset-0 grid-bg opacity-40 pointer-events-none" />
+
+      {/* Cinematic glows */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full bg-primary/8 blur-[180px]" />
-        <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] rounded-full bg-accent/6 blur-[150px]" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-primary/6 blur-[200px] pulse-glow" />
+        <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] rounded-full bg-cyan/4 blur-[180px]" />
+        <div className="absolute top-1/2 left-1/4 w-[400px] h-[400px] rounded-full bg-accent/3 blur-[160px]" />
       </div>
 
       <div className="section-container relative z-10 w-full">
@@ -42,74 +53,86 @@ export function HeroSection() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.3 }}
           className="flex items-center gap-3 mb-8"
         >
-          <span className="relative flex h-2.5 w-2.5">
+          <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
           </span>
-          <span className="text-sm text-muted-foreground">Available for opportunities</span>
+          <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
+            Available for opportunities
+          </span>
         </motion.div>
 
-        {/* Name */}
+        {/* Main headline */}
         <motion.h1
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
-          className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95] mb-6"
+          transition={{ delay: 0.4, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className="font-display text-hero tracking-tight leading-[0.95] mb-4"
         >
-          Sandesh
-          <br />
-          <span className="text-gradient">Gadakh</span>
+          <span className="block text-foreground">AI-Native</span>
+          <span className="block text-gradient">Creative</span>
+          <span className="block text-foreground">Technologist</span>
         </motion.h1>
 
-        {/* Title */}
+        {/* Subheadline */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="text-lg md:text-xl text-muted-foreground font-medium mb-6 max-w-2xl"
-        >
-          Operations Manager • AI-Native Creative Technologist • 3D Generalist
-        </motion.p>
-
-        {/* Description */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="text-base text-muted-foreground/80 max-w-xl mb-10 leading-relaxed"
-        >
-          Strategic professional with 4+ years experience across 3D production,
-          AI-powered creative workflows, motion graphics, and production systems.
-          <br className="hidden md:block" />
-          Currently building scalable video-to-3D pipelines at <span className="text-foreground font-medium">MetaShop AI</span>.
-        </motion.p>
-
-        {/* Buttons */}
-        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="flex flex-wrap items-center gap-4"
+          className="text-lg md:text-xl text-muted-foreground max-w-xl mb-8 leading-relaxed"
+        >
+          I build systems that turn videos into interactive 3D worlds.
+          <br className="hidden md:block" />
+          Currently engineering scalable pipelines at{" "}
+          <span className="text-foreground font-medium">MetaShop AI</span>.
+        </motion.p>
+
+        {/* Role badges */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.85 }}
+          className="flex flex-wrap gap-2 mb-10"
+        >
+          {badges.map((badge, i) => (
+            <motion.span
+              key={badge}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.9 + i * 0.08 }}
+              className="px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-wider glass-card-strong text-muted-foreground hover:text-foreground hover:border-primary/30 transition-all cursor-default"
+            >
+              {badge}
+            </motion.span>
+          ))}
+        </motion.div>
+
+        {/* CTA Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1 }}
+          className="flex flex-wrap items-center gap-3"
         >
           <button
             onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
-            className="px-7 py-3.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm hover:opacity-90 transition-opacity"
+            className="px-7 py-3 rounded-full bg-primary text-primary-foreground font-semibold text-sm hover:opacity-90 transition-all hover:shadow-[0_0_30px_-5px_hsl(var(--primary)/0.5)]"
           >
             View Projects
           </button>
-          <a
-            href="/resume.pdf"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-border text-sm font-semibold hover:bg-secondary/50 transition-colors"
+          <button
+            onClick={() => document.getElementById("lab")?.scrollIntoView({ behavior: "smooth" })}
+            className="inline-flex items-center gap-2 px-7 py-3 rounded-full glass-card-strong text-sm font-semibold hover:border-cyan/30 hover:text-cyan transition-all"
           >
-            <Download className="w-4 h-4" />
-            Download Resume
-          </a>
+            <FlaskConical className="w-4 h-4" />
+            Explore 3D Lab
+          </button>
           <button
             onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-border text-sm font-semibold hover:bg-secondary/50 transition-colors"
+            className="inline-flex items-center gap-2 px-7 py-3 rounded-full glass-card text-sm font-semibold hover:border-primary/30 transition-all"
           >
             <Mail className="w-4 h-4" />
             Contact
@@ -121,12 +144,12 @@ export function HeroSection() {
       <motion.button
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
+        transition={{ delay: 1.5 }}
         onClick={() => document.getElementById("clients")?.scrollIntoView({ behavior: "smooth" })}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 w-10 h-16 rounded-full border border-border/50 flex items-center justify-center"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 w-8 h-14 rounded-full border border-border/40 flex items-center justify-center"
       >
         <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 2, repeat: Infinity }}>
-          <ArrowDown className="w-4 h-4 text-muted-foreground" />
+          <ArrowDown className="w-3.5 h-3.5 text-muted-foreground" />
         </motion.div>
       </motion.button>
     </section>
