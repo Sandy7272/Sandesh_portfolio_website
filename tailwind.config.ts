@@ -18,12 +18,11 @@ export default {
     extend: {
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
-        display: ["Syne", "system-ui", "sans-serif"],
+        display: ["Space Grotesk", "system-ui", "sans-serif"],
         mono: ["JetBrains Mono", "monospace"],
       },
       fontSize: {
-        "hero": ["clamp(4rem, 12vw, 10rem)", { lineHeight: "0.95", letterSpacing: "-0.04em", fontWeight: "800" }],
-        "hero-sub": ["clamp(3rem, 9vw, 7.5rem)", { lineHeight: "0.95", letterSpacing: "-0.03em", fontWeight: "800" }],
+        "hero": ["clamp(3.5rem, 10vw, 8rem)", { lineHeight: "0.95", letterSpacing: "-0.04em", fontWeight: "700" }],
         "display-xl": ["clamp(2.5rem, 6vw, 4.5rem)", { lineHeight: "1.05", letterSpacing: "-0.03em", fontWeight: "700" }],
         "display-lg": ["clamp(1.75rem, 4vw, 3rem)", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
         "display-md": ["clamp(1.25rem, 2.5vw, 1.75rem)", { lineHeight: "1.2", letterSpacing: "-0.01em", fontWeight: "600" }],
@@ -35,6 +34,7 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        cyan: "hsl(var(--cyan))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -94,15 +94,15 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        "marquee": {
-          "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(-50%)" },
+        "counter": {
+          "0%": { opacity: "0", transform: "translateY(8px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "marquee": "marquee 30s linear infinite",
+        "counter": "counter 0.6s ease-out forwards",
       },
     },
   },
